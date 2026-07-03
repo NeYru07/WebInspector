@@ -36,6 +36,7 @@ body {
   min-height: 100vh;
   display: flex;
   flex-direction: column;
+  overflow-x: hidden;
 }
 
 .container {
@@ -555,6 +556,8 @@ body {
   display: flex;
   justify-content: flex-end;
   margin-bottom: 15px;
+  gap: 0.75rem;
+  flex-wrap: wrap;
 }
 
 .export-btn {
@@ -623,5 +626,92 @@ body {
   }
   .report-card__toggle-btn {
     display: none !important;
+  }
+}
+@media (max-width: 576px) {
+  .container {
+    padding: 0 15px;
+  }
+  .header {
+    padding: 15px 0;
+    margin-bottom: 20px;
+    width: 100%;
+  }
+  .header__container {
+    gap: 10px;
+  }
+  .logo {
+    gap: 8px;
+  }
+  .logo__icon {
+    font-size: 1.2rem;
+  }
+  .logo__text {
+    font-size: 1.1rem;
+  }
+  .search-bar {
+    flex-direction: column;
+    gap: 10px;
+    margin-bottom: 20px;
+  }
+  .search-bar__input {
+    padding: 14px 16px;
+    width: 100%;
+  }
+  .search-bar__btn {
+    width: 100%;
+    padding: 14px;
+  }
+  .welcome-message {
+    padding: 30px 20px;
+  }
+  .welcome-message__icon {
+    font-size: 2rem;
+  }
+  .welcome-message h2 {
+    font-size: 1.2rem;
+  }
+  .welcome-message p {
+    font-size: 0.85rem;
+  }
+  .report__iframe-wrapper {
+    height: 250px;
+  }
+  .report__grid {
+    grid-template-columns: 1fr;
+    gap: 15px;
+  }
+  .report-card {
+    padding: 18px;
+  }
+  .report-card__header {
+    font-size: 1rem;
+  }
+  .report-card__description {
+    font-size: 0.85rem;
+  }
+  .history-panel {
+    padding: 18px;
+    position: static;
+  }
+  .history-panel__header h3 {
+    font-size: 1rem;
+  }
+  .info-btn {
+    width: 40px;
+    height: 40px;
+    bottom: 15px;
+    right: 15px;
+    font-size: 1.1rem;
+  }
+  .modal {
+    padding: 25px 20px;
+    width: 95%;
+  }
+  .modal__title {
+    font-size: 1.2rem;
+  }
+  .modal__body {
+    font-size: 0.85rem;
   }
 }/*# sourceMappingURL=style.css.map */

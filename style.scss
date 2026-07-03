@@ -58,6 +58,7 @@ body {
  min-height: 100vh;
  display: flex;
  flex-direction: column;
+ overflow-x: hidden;
 }
 
 // Контейнер
@@ -529,6 +530,8 @@ body {
   display: flex;
   justify-content: flex-end;
   margin-bottom: 15px;
+  gap: 0.75rem;
+  flex-wrap: wrap;
 }
 
 .export-btn {
@@ -610,5 +613,99 @@ body {
     &__toggle-btn {
       display: none !important; // Кнопка не нужна на бумаге
     }
+  }
+}
+
+// Мобильная адаптация
+@include respond-to(mobile) {
+  .container {
+    padding: 0 15px; // Чуть меньше отступы по краям
+  }
+
+  .header {
+    padding: 15px 0;
+    margin-bottom: 20px;
+    width: 100%; // Гарантируем, что хедер на всю ширину
+    
+    &__container {
+      gap: 10px;
+    }
+  }
+
+  .logo {
+    gap: 8px;
+    &__icon { font-size: 1.2rem; }
+    &__text { font-size: 1.1rem; }
+  }
+
+  // Поисковая строка: инпут и кнопка друг под другом
+  .search-bar {
+    flex-direction: column;
+    gap: 10px;
+    margin-bottom: 20px;
+
+    &__input {
+      padding: 14px 16px;
+      width: 100%;
+    }
+
+    &__btn {
+      width: 100%;
+      padding: 14px;
+    }
+  }
+
+  // Приветствие: меньше отступов
+  .welcome-message {
+    padding: 30px 20px;
+    
+    &__icon { font-size: 2rem; }
+    h2 { font-size: 1.2rem; }
+    p { font-size: 0.85rem; }
+  }
+
+  // Карточки отчетов на всю ширину
+  .report {
+    &__iframe-wrapper {
+      height: 250px; // Меньше высота iframe на мобилке
+    }
+    
+    &__grid {
+      grid-template-columns: 1fr; // Одна колонка
+      gap: 15px;
+    }
+  }
+
+  .report-card {
+    padding: 18px; // Меньше отступы внутри карточки
+    
+    &__header { font-size: 1rem; }
+    &__description { font-size: 0.85rem; }
+  }
+
+  // Панель истории
+  .history-panel {
+    padding: 18px;
+    position: static; // Убираем sticky
+    
+    &__header h3 { font-size: 1rem; }
+  }
+
+  // Кнопка информации чуть меньше
+  .info-btn {
+    width: 40px;
+    height: 40px;
+    bottom: 15px;
+    right: 15px;
+    font-size: 1.1rem;
+  }
+
+  // Модальное окно на мобилке
+  .modal {
+    padding: 25px 20px;
+    width: 95%;
+    
+    &__title { font-size: 1.2rem; }
+    &__body { font-size: 0.85rem; }
   }
 }

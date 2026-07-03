@@ -10,6 +10,7 @@ const themeToggle = document.getElementById('themeToggle');
 const htmlElement = document.documentElement;
 const reportToolbar = document.getElementById('reportToolbar');
 const exportPdfBtn = document.getElementById('exportPdfBtn');
+const copyReportBtn = document.getElementById('copyReportBtn');
 
 // --- Управление темой ---
 function initTheme() {
@@ -32,6 +33,7 @@ themeToggle.addEventListener('click', () => {
 
 // --- История проверок (localStorage) ---
 let history = JSON.parse(localStorage.getItem('webInspectorHistory')) || [];
+let currentReportData = null; // Для хранения данных текущего отчета
 
 function saveHistory() {
     localStorage.setItem('webInspectorHistory', JSON.stringify(history));
@@ -304,6 +306,9 @@ function displayResults(data, url) {
     welcomeMessage.style.display = 'none';
     reportContainer.innerHTML = '';
 
+    // Сохраняем данные для копирования
+    currentReportData = { data, url }; 
+
     // 1. Добавляем iframe для визуального просмотра
     const iframeWrapper = document.createElement('div');
     iframeWrapper.className = 'report__iframe-wrapper';
@@ -388,6 +393,44 @@ exportPdfBtn.addEventListener('click', () => {
     setTimeout(() => {
         window.print();
     }, 100);
+});
+
+// --- ЛОГИКА КОПИРОВАНИЯ В БУФЕР ОБМЕНА ---
+copyReportBtn.addEventListener('click', () => {
+    if (!currentReportData) return;
+
+    const { data, url } = currentReportData;
+    let textToCopy = `🔍 Отчет WebInspector: ${url}\n`;
+    textToCopy += `Дата проверки: ${new Date().toLocaleString('ru-RU')}\n\n`;
+
+    // Формируем текст из всех карточек
+    data.report.forEach(item => {
+        let typeText = '';
+        if (item.type === 'critical') typeText = '❌ Ошибка';
+        if (item.type === 'warning') typeText = '⚠️ Предупреждение';
+        if (item.type === 'success') typeText = '✅ Успех';
+        if (item.type === 'stats') typeText = '📊 Статистика';
+
+        textToCopy += `${typeText}: ${item.title}\n`;
+        textToCopy += `${item.desc}\n`;
+        if (item.details) textToCopy += `Детали: ${item.details}\n`;
+        textToCopy += `----------------------------------------\n`;
+    });
+
+    // Копируем в буфер обмена
+    navigator.clipboard.writeText(textToCopy).then(() => {
+        // Визуальная обратная связь
+        const originalText = copyReportBtn.innerHTML;
+        copyReportBtn.innerHTML = '<span>✅</span> Скопировано!';
+        
+        // Возвращаем исходный текст кнопки через 2 секунды
+        setTimeout(() => {
+            copyReportBtn.innerHTML = originalText;
+        }, 2000);
+    }).catch(err => {
+        console.error('Ошибка копирования: ', err);
+        alert('Не удалось скопировать отчет. Ваш браузер не поддерживает эту функцию или требует HTTPS.');
+    });
 });
 
 // --- Инициализация при загрузке страницы ---
