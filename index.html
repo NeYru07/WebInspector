@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="ru" data-theme="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="shortcut icon" href="icon.png" type="image/x-icon">
+    <title>WebInspector — Анализатор сайтов</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <header class="header">
+        <div class="container header__container">
+            <div class="logo">
+                <span class="logo__icon">🔍</span>
+                <h1 class="logo__text">Web<span>Inspector</span></h1>
+            </div>
+            <button class="theme-toggle" id="themeToggle" title="Сменить тему">
+                <span class="theme-toggle__icon">☀️</span>
+            </button>
+        </div>
+    </header>
+
+    <main class="main-content">
+        <div class="container main__container">
+            <!-- Левая часть: Ввод и Результаты -->
+            <section class="workspace">
+                <div class="search-bar">
+                    <input type="text" id="urlInput" class="search-bar__input" placeholder="Введите URL сайта (например, example.com)">
+                    <button id="analyzeBtn" class="search-bar__btn">Анализировать</button>
+                </div>
+
+                <!-- Спиннер загрузки -->
+                <div class="loader hidden" id="loader">
+                    <div class="loader__spinner"></div>
+                    <p class="loader__text">Идет анализ сайта...</p>
+                </div>
+
+                <!-- НОВОЕ: Панель инструментов отчета -->
+                <div class="report-toolbar" id="reportToolbar" style="display: none;">
+                    <button class="export-btn" id="exportPdfBtn">
+                        <span>📄</span> Экспорт в PDF
+                    </button>
+                </div>
+
+                <!-- Блок результатов -->
+                <div class="results" id="resultsContainer">
+                    <!-- Приветствие по умолчанию -->
+                    <div class="welcome-message" id="welcomeMessage">
+                        <span class="welcome-message__icon">🌐</span>
+                        <h2>Добро пожаловать в WebInspector!</h2>
+                        <p>Введите URL-адрес сайта в поле выше, чтобы получить подробный SEO-отчет, проверить структуру страницы и получить рекомендации по улучшению.</p>
+                    </div>
+                    
+                    <!-- Сюда JS будет вставлять iframe и карточки -->
+                    <div class="report" id="reportContainer"></div>
+                </div>
+            </section>
+
+            <!-- Правая часть: История -->
+            <aside class="history-panel">
+                <div class="history-panel__header">
+                    <h3>История проверок</h3>
+                    <button class="history-panel__clear-btn" id="clearHistoryBtn">Очистить</button>
+                </div>
+                <div class="history-list" id="historyList">
+                    <!-- Сюда JS будет вставлять записи истории -->
+                    <p class="history-list__empty">История пуста</p>
+                </div>
+            </aside>
+        </div>
+    </main>
+
+    
+    <!-- НОВОЕ: Кнопка информации -->
+    <button class="info-btn" id="infoBtn" title="Как пользоваться?">i</button>
+    
+    <!-- НОВОЕ: Модальное окно -->
+    <div class="modal-overlay" id="infoModal">
+        <div class="modal">
+            <button class="modal__close" id="closeModalBtn">&times;</button>
+            <h2 class="modal__title">Как пользоваться WebInspector?</h2>
+            <div class="modal__body">
+                <p>Введите URL-адрес сайта в поле поиска и нажмите «Анализировать». Приложение соберет данные о структуре страницы, SEO-настройках и скорости загрузки, а затем сгенерирует рекомендации.</p>
+                
+                <h3>Цветовая индикация карточек:</h3>
+                <ul class="modal__legend">
+                    <li><span class="dot dot--critical"></span> <strong>Ошибки (Critical)</strong> — Серьезные проблемы (красный цвет), требующие немедленного исправления.</li>
+                    <li><span class="dot dot--warning"></span> <strong>Предупреждения (Warnings)</strong> — Желтый цвет. Желательно исправить для улучшения SEO.</li>
+                    <li><span class="dot dot--success"></span> <strong>Успехи (Success)</strong> — Зеленый цвет. То, что сделано хорошо.</li>
+                    <li><span class="dot dot--stats"></span> <strong>Статистика (Stats)</strong> — Фиолетовый цвет. Числовые показатели сайта.</li>
+                </ul>
+
+                <p class="modal__note">⚠️ <strong>Примечание:</strong> Некоторые сайты блокируют парсинг кода или встраивание в iframe из-за политик безопасности (CORS). В таких случаях анализ проходит в ограниченном режиме.</p>
+            </div>
+        </div>
+    </div>
+</body>
+<script src="script.js"></script>
+</html>
